@@ -3,3 +3,5 @@
 
 # Firmware binaries
 examples/**/build/
+.*.sw?
+build
