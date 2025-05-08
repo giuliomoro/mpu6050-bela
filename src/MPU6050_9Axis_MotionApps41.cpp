@@ -33,6 +33,7 @@ THE SOFTWARE.
 // MotionApps 4.1 DMP implementation, built using the MPU-9150 "MotionFit" board
 #define MPU6050_INCLUDE_DMP_MOTIONAPPS41
 
+#include <Arduino.h>
 #include "MPU6050_9Axis_MotionApps41.h"
 
 // Tom Carpenter's conditional PROGMEM code
