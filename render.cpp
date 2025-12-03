@@ -84,30 +84,34 @@ bool setup(BelaContext *context, void *userData)
 }
 
 void loop(void*) {
-  /* Read raw accel/gyro data from the module. Other methods commented*/
-  mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-  //mpu.getAcceleration(&ax, &ay, &az);
-  //mpu.getRotation(&gx, &gy, &gz);
+	while(!Bela_stopRequested())
+	{
+		/* Read raw accel/gyro data from the module. Other methods commented*/
+		mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+		//mpu.getAcceleration(&ax, &ay, &az);
+		//mpu.getRotation(&gx, &gy, &gz);
 
-  /*Print the obtained data on the defined format*/
-  #ifdef OUTPUT_READABLE_ACCELGYRO
-    Serial.print("a/g:\t");
-    Serial.print(ax); Serial.print("\t");
-    Serial.print(ay); Serial.print("\t");
-    Serial.print(az); Serial.print("\t");
-    Serial.print(gx); Serial.print("\t");
-    Serial.print(gy); Serial.print("\t");
-    Serial.println(gz);
-  #endif
+		/*Print the obtained data on the defined format*/
+#ifdef OUTPUT_READABLE_ACCELGYRO
+		Serial.print("a/g:\t");
+		Serial.print(ax); Serial.print("\t");
+		Serial.print(ay); Serial.print("\t");
+		Serial.print(az); Serial.print("\t");
+		Serial.print(gx); Serial.print("\t");
+		Serial.print(gy); Serial.print("\t");
+		Serial.println(gz);
+#endif
 
-  #ifdef OUTPUT_BINARY_ACCELGYRO
-    Serial.write((uint8_t)(ax >> 8)); Serial.write((uint8_t)(ax & 0xFF));
-    Serial.write((uint8_t)(ay >> 8)); Serial.write((uint8_t)(ay & 0xFF));
-    Serial.write((uint8_t)(az >> 8)); Serial.write((uint8_t)(az & 0xFF));
-    Serial.write((uint8_t)(gx >> 8)); Serial.write((uint8_t)(gx & 0xFF));
-    Serial.write((uint8_t)(gy >> 8)); Serial.write((uint8_t)(gy & 0xFF));
-    Serial.write((uint8_t)(gz >> 8)); Serial.write((uint8_t)(gz & 0xFF));
-  #endif
+#ifdef OUTPUT_BINARY_ACCELGYRO
+		Serial.write((uint8_t)(ax >> 8)); Serial.write((uint8_t)(ax & 0xFF));
+		Serial.write((uint8_t)(ay >> 8)); Serial.write((uint8_t)(ay & 0xFF));
+		Serial.write((uint8_t)(az >> 8)); Serial.write((uint8_t)(az & 0xFF));
+		Serial.write((uint8_t)(gx >> 8)); Serial.write((uint8_t)(gx & 0xFF));
+		Serial.write((uint8_t)(gy >> 8)); Serial.write((uint8_t)(gy & 0xFF));
+		Serial.write((uint8_t)(gz >> 8)); Serial.write((uint8_t)(gz & 0xFF));
+#endif
+		usleep(1000000);
+	}
 }
 
 void render(BelaContext *context, void *userData)
