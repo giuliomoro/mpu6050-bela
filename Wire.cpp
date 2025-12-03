@@ -76,10 +76,15 @@ uint8_t arduino::MbedI2C::endTransmission(bool stopBit) {
 		// we are scanning, return 0 if the addresed device responds with an ACK
 		char buf[1];
 		int ret = master->readRaw(_address, (i2c_char_t*)buf, 1, !stopBit);
+		printf("endTransmission readRaw(%#02x, ..., %u) returned %d\n", _address, 1, ret);
 		return ret;
 	}
 	#endif
-	if (master->writeRaw(_address, (i2c_char_t *) txBuffer, usedTxBuffer, !stopBit) == usedTxBuffer) return 0;
+	int ret;
+	if ((ret = master->writeRaw(_address, (i2c_char_t *) txBuffer, usedTxBuffer, !stopBit) == usedTxBuffer)) {
+		printf("endTransmission writeRaw(%#02x, ..., %u) returned %d\n", _address, usedTxBuffer, ret);
+		return 0;
+	}
 	return 2;
 }
 
@@ -90,6 +95,7 @@ uint8_t arduino::MbedI2C::endTransmission(void) {
 size_t arduino::MbedI2C::requestFrom(uint8_t address, size_t len, bool stopBit) {
 	i2c_char_t buf[256];
 	int ret = master->readRaw(address, buf, len, !stopBit) == len ? 0 : -1;
+	printf("endTransmission readRaw(%#02x, ..., %zu) returned %d\n", address, len, ret);
 	if (ret != 0) {
 		return 0;
 	}
